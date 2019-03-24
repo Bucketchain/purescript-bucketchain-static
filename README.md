@@ -6,8 +6,16 @@ A static file server middleware of [Bucketchain](https://github.com/Bucketchain/
 
 ## Installation
 
+### Bower
+
 ```
-bower install purescript-bucketchain-static
+$ bower install purescript-bucketchain-static
+```
+
+### Spago
+
+```
+$ spago install bucketchain-static
 ```
 
 ## Documentation
