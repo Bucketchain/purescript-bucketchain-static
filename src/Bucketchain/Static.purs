@@ -13,9 +13,12 @@ import Control.Monad.Error.Class (throwError)
 import Control.Monad.Reader (ask)
 import Data.Either (Either(..))
 import Data.Foldable (elem)
+import Data.Int (ceil)
 import Data.JSDate (toUTCString)
 import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Newtype (unwrap)
 import Data.Nullable (toMaybe)
+import Data.Time.Duration (Seconds)
 import Effect (Effect)
 import Effect.Aff (attempt)
 import Effect.Aff.Class (liftAff)
@@ -33,7 +36,7 @@ import Node.URL as URL
 -- | - `maxAge` is `max-age` of `Cache-Control`. It should set seconds.
 type Options =
   { root :: String
-  , maxAge :: Int
+  , maxAge :: Seconds
   }
 
 -- | Static file server middleware.
@@ -52,7 +55,8 @@ withStatic opts next = do
         Right (Stats stats) -> liftEffect do
           setHeader http "Content-Type" $ contentTypeFromPath path
           setHeader http "Last-Modified" $ toUTCString stats.mtime
-          setHeader http "Cache-Control" $ "max-age=" <> show opts.maxAge
+          setHeader http "Cache-Control"
+            $ "max-age=" <> (show $ ceil $ unwrap $ opts.maxAge)
           setStatusCode http 200
           if isHead http
             then pure Nothing

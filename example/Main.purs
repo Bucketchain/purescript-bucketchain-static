@@ -3,9 +3,10 @@ module Main where
 import Prelude
 
 import Bucketchain (createServer, listen)
-import Bucketchain.Static (withStatic)
 import Bucketchain.Middleware (Middleware)
+import Bucketchain.Static (withStatic)
 import Data.Maybe (Maybe(..))
+import Data.Time.Duration (Seconds(..))
 import Effect (Effect)
 import Node.HTTP (ListenOptions, Server)
 
@@ -23,4 +24,4 @@ opts =
   }
 
 middleware :: Middleware
-middleware = withStatic { root: "./example/public", maxAge: 86400 }
+middleware = withStatic { root: "./example/public", maxAge: Seconds 86400.0 }
