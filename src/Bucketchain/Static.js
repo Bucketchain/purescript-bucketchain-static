@@ -1,5 +1,5 @@
 'use strict';
 
-exports.code = function(e) {
+export function code(e) {
   return e.code;
 }
