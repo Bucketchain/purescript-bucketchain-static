@@ -34,9 +34,11 @@ import Node.URL as URL
 -- |
 -- | - `root` is root directory.
 -- | - `maxAge` is `max-age` of `Cache-Control`. It should set seconds.
+-- | - `immutable` is `immutable` of `Cache-Control`.
 type Options =
   { root :: String
   , maxAge :: Seconds
+  , immutable :: Boolean
   }
 
 -- | Static file server middleware.
@@ -57,6 +59,7 @@ withStatic opts next = do
           setHeader http "Last-Modified" $ toUTCString stats.mtime
           setHeader http "Cache-Control"
             $ "max-age=" <> (show $ ceil $ unwrap $ opts.maxAge)
+            <> if opts.immutable then ", immutable" else ""
           setStatusCode http 200
           if isHead http
             then pure Nothing

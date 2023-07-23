@@ -24,4 +24,8 @@ opts =
   }
 
 middleware :: Middleware
-middleware = withStatic { root: "./example/public", maxAge: Seconds 86400.0 }
+middleware = withStatic
+  { root: "./example/public"
+  , maxAge: Seconds 86400.0
+  , immutable: true
+  }

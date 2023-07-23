@@ -49,7 +49,7 @@ testHead = do
     assert $ C.statusCode res == 200
     assert $ (lookup "content-type" $ C.responseHeaders res) == Just "image/png"
     assert $ isJust $ lookup "last-modified" $ C.responseHeaders res
-    assert $ (lookup "cache-control" $ C.responseHeaders res) == Just "max-age=86400"
+    assert $ (lookup "cache-control" $ C.responseHeaders res) == Just "max-age=86400, immutable"
   where
     opts = C.port := 3000
         <> C.method := "HEAD"
@@ -66,7 +66,7 @@ testGet = do
     assert $ C.statusCode res == 200
     assert $ (lookup "content-type" $ C.responseHeaders res) == Just "image/png"
     assert $ isJust $ lookup "last-modified" $ C.responseHeaders res
-    assert $ (lookup "cache-control" $ C.responseHeaders res) == Just "max-age=86400"
+    assert $ (lookup "cache-control" $ C.responseHeaders res) == Just "max-age=86400, immutable"
   where
     opts = C.port := 3000
         <> C.method := "GET"
